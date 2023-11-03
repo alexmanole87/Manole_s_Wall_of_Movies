@@ -1,7 +1,6 @@
 package com.example.manoleswallofmovies;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -19,7 +18,7 @@ public class AddMovieActivity extends AppCompatActivity {
     private EditText editTextMovieTitle;
     private EditText editTextMovieGenre;
     private RatingBar ratingBarMovie;
-    private ArrayList<Movie> movieList;
+    private ArrayList<Movies> movieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class AddMovieActivity extends AppCompatActivity {
             float rating = ratingBarMovie.getRating();
 
             if (!title.isEmpty() && !genre.isEmpty()) {
-                Movie newMovie = new Movie(title, genre, rating);
+                Movies newMovie = new Movies(title, genre, rating);
                 movieList.add(newMovie);
                 saveMovies(movieList);
 
@@ -56,7 +55,7 @@ public class AddMovieActivity extends AppCompatActivity {
         });
     }
 
-    private void saveMovies(ArrayList<Movie> movieList) {
+    private void saveMovies(ArrayList<Movies> movieList) {
         try {
             FileOutputStream fos = openFileOutput(getString(R.string.nume_bd_movies), MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -69,12 +68,12 @@ public class AddMovieActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Movie> loadMovies() {
-        ArrayList<Movie> movieList = new ArrayList<>();
+    private ArrayList<Movies> loadMovies() {
+        ArrayList<Movies> movieList = new ArrayList<>();
         try {
             FileInputStream fis = openFileInput(getString(R.string.nume_bd_movies));
             ObjectInputStream ois = new ObjectInputStream(fis);
-            movieList = (ArrayList<Movie>) ois.readObject();
+            movieList = (ArrayList<Movies>) ois.readObject();
             ois.close();
             fis.close();
         } catch (Exception e) {

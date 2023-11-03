@@ -2,12 +2,12 @@ package com.example.manoleswallofmovies;
 
 import java.io.Serializable;
 
-public class Movie implements Serializable {
+public class Movies implements Serializable {
     private String title;
     private String genre;
     private float rating;
 
-    public Movie(String title, String genre, float rating) {
+    public Movies(String title, String genre, float rating) {
     }
 
     public String getTitle() {

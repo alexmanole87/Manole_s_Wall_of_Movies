@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        tvMessage = findViewById(R.id.tvMessage);
         Button bam = findViewById(R.id.buttonAddMovie);
+        Button bvm = findViewById(R.id.buttonViewMovies);
 
         bam.setOnClickListener(view -> {
             Intent intent_add = new Intent(MainActivity.this, AddMovieActivity.class);
@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, R.string.txt_help_add, Toast.LENGTH_LONG).show();
 
             return true;
+        });
+
+        bvm.setOnClickListener(view -> {
+            Intent intent_view = new Intent(MainActivity.this, MovieListActivity.class);
+            startActivity(intent_view);
         });
         Log.i("A pornit", "Aplicatia a pornit");
 

@@ -15,4 +15,11 @@
     <string name="movie_save">Film salvat!</string>
     <string name="nume_bd_movies">movies.dat</string>
     <string name="error_save_movies_txt">Eroare la salvarea filmelor.</string>
+    <string name="title_movie">Titlu Film</string>
+    <string name="show_details_btn_txt">Arată detalii…</string>
+    <string name="movie_title">Titlu Film</string>
+    <string name="show_details">Arată detalii…</string>
+    <string name="movie_title_md">Titlu Film</string>
+    <string name="movie_gen_md">Gen Film</string>
+    <string name="movie_rating_md">Rating Film</string>
 </resources>
