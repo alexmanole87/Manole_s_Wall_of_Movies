@@ -1,12 +1,14 @@
 package com.example.manoleswallofmovies;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,25 +17,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        tvMessage = findViewById(R.id.tvMessage);
+        Button bam = findViewById(R.id.buttonAddMovie);
+
+        bam.setOnClickListener(view -> {
+            Intent intent_add = new Intent(MainActivity.this, AddMovieActivity.class);
+            startActivity(intent_add);
+        });
+
+        bam.setOnLongClickListener(view -> {
+            Toast.makeText(MainActivity.this, R.string.txt_help_add, Toast.LENGTH_LONG).show();
+
+            return true;
+        });
         Log.i("A pornit", "Aplicatia a pornit");
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       if(item.getItemId()== R.id.menu_opt_1){
-           Toast.makeText(this, "Optiunea 1 Deșlectata", Toast.LENGTH_SHORT).show();
-       }
-       else if (item.getItemId()== R.id.menu_opt_2){
-           Toast.makeText(this, "Optinuea a doua selectatda", Toast.LENGTH_LONG).show();
-        }
-       return true;
-    }
+
+
+
 
     @Override
     protected void onPause() {

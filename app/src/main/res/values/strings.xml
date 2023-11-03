@@ -3,4 +3,16 @@
     <string name="hello_world">Hello World, again and again!</string>
     <string name="optiunea1">Optiunea 1</string>
     <string name="optiunea2">Optiunea 2</string>
+    <string name="myChild">Andrei</string>
+    <string name="welcome_txt">Bine ati venit la Zidul dumneavoastra cu filme</string>
+    <string name="view_movies">Vedeti filmele</string>
+    <string name="add_movie">Adaugati un film </string>
+    <string name="txt_help_add">Apasati aici pentru a adauga o caramida la pertele dvs.!</string>
+    <string name="enter_movie_title">Adaugati numele filmului</string>
+    <string name="enter_movie_genre">Adaugati genul filmului </string>
+    <string name="save_movie">Salvati filmul</string>
+    <string name="title_genere_warning">Titlul și genul sunt obligatorii!</string>
+    <string name="movie_save">Film salvat!</string>
+    <string name="nume_bd_movies">movies.dat</string>
+    <string name="error_save_movies_txt">Eroare la salvarea filmelor.</string>
 </resources>
