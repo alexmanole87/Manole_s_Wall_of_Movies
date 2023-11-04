@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validateLogin(String username, String password) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserLoginPrefs", Context.MODE_PRIVATE);
-        String registeredUsername = sharedPreferences.getString("Username", "");
-        String registeredPassword = sharedPreferences.getString("Password", "");
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), Context.MODE_PRIVATE);
+        String registeredUsername = sharedPreferences.getString(getString(R.string.pref_username), "");
+        String registeredPassword = sharedPreferences.getString(getString(R.string.pref_password), "");
         return username.equals(registeredUsername) && password.equals(registeredPassword);
     }
 }

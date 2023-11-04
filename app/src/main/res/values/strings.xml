@@ -27,4 +27,14 @@
     <string name="pass_hint_login">Parolă</string>
     <string name="auth_login">Autentificare</string>
     <string name="sign_up_login">Înregistrare</string>
+    <string name="no_movie_seen">Numar de filme văzute (opțional)</string>
+    <string name="name_sign_up">Nume (opțional)</string>
+    <string name="sign_up">Înregistrează-te</string>
+    <string name="sign_up_error">Ceva nu a mers bine...</string>
+    <string name="shared_prefs_file">user_preferences</string>
+    <string name="pref_username">username_key</string>
+    <string name="pref_password">password_key</string>
+    <string name="pref_seen_movies_no">seen_movies_no_key</string>
+    <string name="pref_name">name_key</string>
+    <string name="pref_year_of_birth">year_of_birth_key</string>
 </resources>
