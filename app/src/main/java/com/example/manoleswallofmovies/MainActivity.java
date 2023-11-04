@@ -1,64 +1,54 @@
 package com.example.manoleswallofmovies;
 
-
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.Toast;
-
 public class MainActivity extends AppCompatActivity {
+
+    private EditText editTextUsername;
+    private EditText editTextPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        tvMessage = findViewById(R.id.tvMessage);
-        Button bam = findViewById(R.id.buttonAddMovie);
-        Button bvm = findViewById(R.id.buttonViewMovies);
 
-        bam.setOnClickListener(view -> {
-            Intent intent_add = new Intent(MainActivity.this, AddMovieActivity.class);
-            startActivity(intent_add);
+        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        Button buttonLogin = findViewById(R.id.buttonLogin);
+        Button buttonSignUp = findViewById(R.id.buttonSignUp);
+
+        buttonLogin.setOnClickListener(v -> {
+            String username = editTextUsername.getText().toString();
+            String password = editTextPassword.getText().toString();
+            if (validateLogin(username, password)) {
+                // Autentificare reușită, treci la următoarea activitate
+                Toast.makeText(MainActivity.this, "Autentificare reușită!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, WallActivity.class);
+                startActivity(intent);
+                // Intent pentru a deschide o nouă activitate
+            } else {
+                Toast.makeText(MainActivity.this, "Nume de utilizator sau parolă incorecte.", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        bam.setOnLongClickListener(view -> {
-            Toast.makeText(MainActivity.this, R.string.txt_help_add, Toast.LENGTH_LONG).show();
-
-            return true;
+        buttonSignUp.setOnClickListener(v -> {
+            // Deschide SignUpActivity pentru înregistrare
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(intent);
         });
-
-        bvm.setOnClickListener(view -> {
-            Intent intent_view = new Intent(MainActivity.this, MovieListActivity.class);
-            startActivity(intent_view);
-        });
-        Log.i("A pornit", "Aplicatia a pornit");
-
     }
 
-
-
-
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("Pauza", "Aplicatia e pe pauza");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("A repornit", "A repornit");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("Bye bye", "Aplicatia a fost inchisa cu succes");
+    private boolean validateLogin(String username, String password) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserLoginPrefs", Context.MODE_PRIVATE);
+        String registeredUsername = sharedPreferences.getString("Username", "");
+        String registeredPassword = sharedPreferences.getString("Password", "");
+        return username.equals(registeredUsername) && password.equals(registeredPassword);
     }
 }

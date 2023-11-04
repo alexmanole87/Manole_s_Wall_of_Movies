@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome_txt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textSize="24sp" />
+        android:hint="@string/username_hint_login"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pass_hint_login"
+        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/buttonViewMovies"
+        android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/view_movies"
-        android:layout_below="@id/textViewTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:text="@string/auth_login"
+        android:hint="@string/auth_login"/>
 
     <Button
-        android:id="@+id/buttonAddMovie"
+        android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_movie"
-        android:layout_below="@id/buttonViewMovies"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:text="@string/sign_up_login"
+        android:hint="@string/sign_up_login"/>
 
-</RelativeLayout>
+</LinearLayout>

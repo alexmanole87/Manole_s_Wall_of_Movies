@@ -22,4 +22,9 @@
     <string name="movie_title_md">Titlu Film</string>
     <string name="movie_gen_md">Gen Film</string>
     <string name="movie_rating_md">Rating Film</string>
+    <string name="movie_synopsis_md">Sinopsis film</string>
+    <string name="username_hint_login">Nume de utilizator</string>
+    <string name="pass_hint_login">Parolă</string>
+    <string name="auth_login">Autentificare</string>
+    <string name="sign_up_login">Înregistrare</string>
 </resources>

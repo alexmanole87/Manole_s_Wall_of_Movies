@@ -17,12 +17,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         TextView titleTextView = findViewById(R.id.title_text_view);
         TextView genreTextView = findViewById(R.id.genre_text_view);
         TextView ratingTextView = findViewById(R.id.rating_text_view);
+        TextView synopsisTextView = findViewById(R.id.synopsis_text_view);
 
         Movie movie = (Movie) getIntent().getSerializableExtra("MOVIE");
         if (movie != null) {
             titleTextView.setText(movie.getTitle());
             genreTextView.setText(movie.getGenre());
             ratingTextView.setText(String.valueOf(movie.getRating()));
+            synopsisTextView.setText(movie.getSynopsis());
         } else {
             Toast.makeText(this, "Detalii film indisponibile.", Toast.LENGTH_SHORT).show();
         }

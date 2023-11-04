@@ -1,14 +1,19 @@
 package com.example.manoleswallofmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import android.content.SharedPreferences;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,14 +31,32 @@ public class MovieListActivity extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.movie_list_view);
         loadMovies();
+        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(this, R.layout.list_item_movie, movieList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View itemView = convertView;
+                if (itemView == null) {
+                    itemView = getLayoutInflater().inflate(R.layout.list_item_movie, parent, false);
+                }
 
-        ArrayAdapter<Movie> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                movieList
-        );
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+                Movie currentMovie = movieList.get(position);
+
+                TextView titleTextView = itemView.findViewById(R.id.movie_title_text_view);
+                titleTextView.setText(currentMovie.getTitle());
+
+                TextView synopsisTextView = itemView.findViewById(R.id.movie_synopsis_text_view);
+                synopsisTextView.setText(currentMovie.getSynopsis());
+
+                Button detailsButton = itemView.findViewById(R.id.view_details_button);
+                detailsButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(MovieListActivity.this, MovieDetailActivity.class);
+                    intent.putExtra("MOVIE", currentMovie);
+                    startActivity(intent);
+                });
+                return itemView;
+            }
+        };
+     listView.setAdapter(adapter);
     }
 
     private void loadMovies() {

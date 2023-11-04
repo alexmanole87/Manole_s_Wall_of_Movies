@@ -7,7 +7,7 @@ public class Movie implements Serializable {
     private String genre;
     private double rating;
 
-    private String sinopsis;
+    private String synopsis;
 
     public Movie(String title, String genre, double rating) {
         this.title = title;
@@ -15,11 +15,11 @@ public class Movie implements Serializable {
         this.rating = rating;
     }
 
-    public Movie(String title, String genre, double rating, String sinopsis) {
+    public Movie(String title, String genre, double rating, String synopsis) {
         this.title = title;
         this.genre = genre;
         this.rating = rating;
-        this.sinopsis = sinopsis;
+        this.synopsis = synopsis;
 
     }
 
@@ -33,6 +33,14 @@ public class Movie implements Serializable {
 
     public double getRating() {
         return rating;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
     }
 
     @Override
