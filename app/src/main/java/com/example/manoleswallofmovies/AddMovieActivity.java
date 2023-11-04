@@ -1,5 +1,6 @@
 package com.example.manoleswallofmovies;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,10 +8,11 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class AddMovieActivity extends AppCompatActivity {
@@ -18,7 +20,7 @@ public class AddMovieActivity extends AppCompatActivity {
     private EditText editTextMovieTitle;
     private EditText editTextMovieGenre;
     private RatingBar ratingBarMovie;
-    private ArrayList<Movies> movieList;
+    private ArrayList<Movie> movieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class AddMovieActivity extends AppCompatActivity {
             float rating = ratingBarMovie.getRating();
 
             if (!title.isEmpty() && !genre.isEmpty()) {
-                Movies newMovie = new Movies(title, genre, rating);
+                Movie newMovie = new Movie(title, genre, rating);
                 movieList.add(newMovie);
                 saveMovies(movieList);
 
@@ -55,27 +57,34 @@ public class AddMovieActivity extends AppCompatActivity {
         });
     }
 
-    private void saveMovies(ArrayList<Movies> movieList) {
+    private void saveMovies(ArrayList<Movie> movieList) {
         try {
-            FileOutputStream fos = openFileOutput(getString(R.string.nume_bd_movies), MODE_PRIVATE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(movieList);
-            oos.close();
-            fos.close();
+            SharedPreferences sharedPreferences = getSharedPreferences("ManolesWallOfMoviesPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
+            String moviesJson = gson.toJson(movieList);
+            editor.putString("movie", moviesJson);
+            editor.apply();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.error_save_movies_txt, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private ArrayList<Movies> loadMovies() {
-        ArrayList<Movies> movieList = new ArrayList<>();
+    private ArrayList<Movie> loadMovies() {
+        ArrayList<Movie> movieList = new ArrayList<>();
         try {
-            FileInputStream fis = openFileInput(getString(R.string.nume_bd_movies));
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            movieList = (ArrayList<Movies>) ois.readObject();
-            ois.close();
-            fis.close();
+            SharedPreferences sharedPreferences = getSharedPreferences("ManolesWallOfMoviesPrefs", MODE_PRIVATE);
+            String moviesJson = sharedPreferences.getString("movie", null);
+            Gson gson = new Gson();
+
+            if (moviesJson != null) {
+                Type movieListType = new TypeToken<ArrayList<Movie>>() {}.getType();
+                movieList = gson.fromJson(moviesJson, movieListType);
+            } else {
+                movieList = new ArrayList<>();
+            }
+            return movieList;
         } catch (Exception e) {
             e.printStackTrace();
         }

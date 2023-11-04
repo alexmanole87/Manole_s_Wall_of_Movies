@@ -18,7 +18,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         TextView genreTextView = findViewById(R.id.genre_text_view);
         TextView ratingTextView = findViewById(R.id.rating_text_view);
 
-        Movies movie = (Movies) getIntent().getSerializableExtra("MOVIE");
+        Movie movie = (Movie) getIntent().getSerializableExtra("MOVIE");
         if (movie != null) {
             titleTextView.setText(movie.getTitle());
             genreTextView.setText(movie.getGenre());
