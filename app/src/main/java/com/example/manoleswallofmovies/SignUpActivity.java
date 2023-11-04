@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerYearOfBirth.setAdapter(adapter);
     }
-
+//yes
     private boolean isUsernameExist(String username) {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
         // Aici presupunem că toate username-urile sunt salvate cu un prefix sau într-o structură anume.
