@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class WallActivity extends AppCompatActivity {
@@ -16,7 +19,19 @@ public class WallActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall);
-//        tvMessage = findViewById(R.id.tvMessage);
+        TextView tvMessage = findViewById(R.id.textViewTitle);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
+        String name = sharedPreferences.getString(getString(R.string.pref_name), "");
+        String username = sharedPreferences.getString(getString(R.string.pref_username), "");
+
+        if (!name.isEmpty()) {
+            tvMessage.setText(getString(R.string.welcome_txt, name));
+        } else {
+            tvMessage.setText(getString(R.string.welcome_txt, username));
+        }
+
+
         Button bam = findViewById(R.id.buttonAddMovie);
         Button bvm = findViewById(R.id.buttonViewMovies);
 
@@ -35,30 +50,48 @@ public class WallActivity extends AppCompatActivity {
             Intent intent_view = new Intent(WallActivity.this, MovieListActivity.class);
             startActivity(intent_view);
         });
-        Log.i("A pornit", "Aplicatia a pornit");
 
-    }
-
-
-
-
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("Pauza", "Aplicatia e pe pauza");
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("A repornit", "A repornit");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    private void logout() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("Username");
+        editor.remove("Password");
+        editor.apply();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("Bye bye", "Aplicatia a fost inchisa cu succes");
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_list) {
+            Intent menuIntent = new Intent(this, MovieListActivity.class);
+            startActivity(menuIntent);
+            return true;
+        } else if (id == R.id.menu_wall) {
+            Intent wallIntent = new Intent(this, WallActivity.class);
+            startActivity(wallIntent);
+            return true;
+        } else if (id == R.id.menu_log_out) {
+            logout();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
+
 }

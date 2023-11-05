@@ -38,8 +38,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void setupYearOfBirthSpinner() {
         ArrayList<String> years = new ArrayList<>();
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = thisYear; i >= 1900; i--) {
+        int thisYear = (Calendar.getInstance().get(Calendar.YEAR)) - 2;
+        for (int i = thisYear; i >= 1930; i--) {
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
@@ -49,10 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
 //yes
     private boolean isUsernameExist(String username) {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
-        // Aici presupunem că toate username-urile sunt salvate cu un prefix sau într-o structură anume.
-        // De exemplu, toate username-urile sunt salvate ca "user_username".
-        String userKey = "user_" + username;
-        return sharedPreferences.contains(userKey);
+        return sharedPreferences.contains(username);
     }
 
     private void attemptSignUp() {
@@ -62,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
         String name = editTextName.getText().toString();
         String yearOfBirth = spinnerYearOfBirth.getSelectedItem().toString();
 
-        if (!username.isEmpty() && !password.isEmpty()) {
+        if (!username.isEmpty() && !password.isEmpty() && !isUsernameExist(username)) {
             saveUserDetails(username, password, seenMoviesNo, name, yearOfBirth);
             Toast.makeText(this, R.string.auth_login, Toast.LENGTH_SHORT).show();
             finish();

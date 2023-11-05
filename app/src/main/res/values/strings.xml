@@ -4,7 +4,7 @@
     <string name="optiunea1">Optiunea 1</string>
     <string name="optiunea2">Optiunea 2</string>
     <string name="myChild">Andrei</string>
-    <string name="welcome_txt">Bine ati venit la Zidul dumneavoastra cu filme</string>
+    <string name="welcome_txt">%1$s, bine a venit la Zidul tau cu filme</string>
     <string name="view_movies">Vedeti filmele</string>
     <string name="add_movie">Adaugati un film </string>
     <string name="txt_help_add">Apasati aici pentru a adauga o caramida la pertele dvs.!</string>
@@ -30,11 +30,16 @@
     <string name="no_movie_seen">Numar de filme văzute (opțional)</string>
     <string name="name_sign_up">Nume (opțional)</string>
     <string name="sign_up">Înregistrează-te</string>
-    <string name="sign_up_error">Ceva nu a mers bine...</string>
+    <string name="sign_up_error">Ceva nu a mers bine…</string>
     <string name="shared_prefs_file">user_preferences</string>
     <string name="pref_username">username_key</string>
     <string name="pref_password">password_key</string>
     <string name="pref_seen_movies_no">seen_movies_no_key</string>
     <string name="pref_name">name_key</string>
     <string name="pref_year_of_birth">year_of_birth_key</string>
+    <string name="auth_succes">Autentificare reușită!</string>
+    <string name="auth_fail">Nume de utilizator sau parolă incorecte.</string>
+    <string name="opt_lista_de_filme">Lista de filme</string>
+    <string name="opt_zid">Zidul Dvs.</string>
+    <string name="opt_delogare">Delogare</string>
 </resources>

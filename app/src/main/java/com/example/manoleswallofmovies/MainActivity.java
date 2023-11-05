@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
             String username = editTextUsername.getText().toString();
             String password = editTextPassword.getText().toString();
             if (validateLogin(username, password)) {
-                // Autentificare reușită, treci la următoarea activitate
-                Toast.makeText(MainActivity.this, "Autentificare reușită!", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(MainActivity.this, R.string.auth_succes, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, WallActivity.class);
                 startActivity(intent);
-                // Intent pentru a deschide o nouă activitate
+
             } else {
-                Toast.makeText(MainActivity.this, "Nume de utilizator sau parolă incorecte.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.auth_fail, Toast.LENGTH_SHORT).show();
             }
         });
 
