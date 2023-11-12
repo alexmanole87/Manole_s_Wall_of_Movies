@@ -42,4 +42,18 @@
     <string name="opt_lista_de_filme">Lista de filme</string>
     <string name="opt_zid">Zidul Dvs.</string>
     <string name="opt_delogare">Delogare</string>
+    <string name="title_genre_warning">Eroare la incarcarea filmului</string>
+    <string name="ext_storage_denied_read">Acces interzis la citirea mediului de stocare extern</string>
+    <string name="no_details">Detalii film indisponibile.</string>
+    <string name="add_succes">Film adaugat cu succes!</string>
+    <string name="choose_image">Alegeti imaginea</string>
+    <string name="watched">Vizionat\n</string>
+    <string name="view_details">Detalii\n</string>
+    <string name="movie_genre">Gen film\n</string>
+    <string name="movie_image">poster film\n</string>
+    <string name="please_fill_all_the_fields_and_select_an_image">Intoduceti toate detaliile filmului si incarcati o imagine</string>
+    <string name="current_movie_error">A aparut o problema la incarcarea filmului</string>
+    <string name="genere_show_err">Eroare la aratarea \"GENULUI\"</string>
+    <string name="movie_added_successfully">Film adaugat cu succes!</string>
+    <string name="permission_required_images">"Este nevoie de permisiune pentru a accesa imaginile "</string>
 </resources>

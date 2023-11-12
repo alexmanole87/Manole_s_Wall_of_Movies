@@ -6,22 +6,20 @@ public class Movie implements Serializable {
     private String title;
     private String genre;
     private double rating;
+    private String imagePath;
 
-    private String synopsis;
+    private boolean isWatched;
 
-    public Movie(String title, String genre, double rating) {
+
+    public Movie(String title, String genre, double rating, String imagePath, boolean isWatched) {
         this.title = title;
         this.genre = genre;
         this.rating = rating;
+        this.imagePath = imagePath;
+        this.isWatched = isWatched;
     }
 
-    public Movie(String title, String genre, double rating, String synopsis) {
-        this.title = title;
-        this.genre = genre;
-        this.rating = rating;
-        this.synopsis = synopsis;
 
-    }
 
     public String getTitle() {
         return title;
@@ -35,12 +33,20 @@ public class Movie implements Serializable {
         return rating;
     }
 
-    public String getSynopsis() {
-        return synopsis;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
     }
 
     @Override
