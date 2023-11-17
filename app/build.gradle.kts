@@ -42,7 +42,9 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-    implementation ("androidx.activity:activity:1.8.0")
+    implementation ("androidx.activity:activity:1.8.1")
     implementation ("androidx.fragment:fragment:1.6.2")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
 }
