@@ -3,56 +3,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextMovieTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_movie_title"
-        android:minHeight="48dp"
-        android:inputType="text"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextMovieGenre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_movie_genre"
-        android:minHeight="48dp"
-        android:inputType="text"/>
+        <EditText
+            android:id="@+id/editTextMovieTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/movie_title_hint"
+            android:inputType="text"
+            android:minHeight="48dp" />
 
-    <RatingBar
-        android:id="@+id/ratingBarMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:stepSize="0.5"
-        android:layout_gravity="center"/>
+        <EditText
+            android:id="@+id/editTextMovieGenre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/movie_genre_hint"
+            android:inputType="text"
+            android:minHeight="48dp" />
 
-    <ImageView
-        android:id="@+id/movieImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="@string/movie_image" />
-    <Button
-        android:id="@+id/button_choose_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_image"
-        android:layout_gravity="center"/>
+        <EditText
+            android:id="@+id/editTextDirector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/director_hint"
+            android:inputType="text"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/buttonSaveMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_movie"
-        android:layout_gravity="center"/>
+        <EditText
+            android:id="@+id/editTextReleaseYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/release_year_hint"
+            android:inputType="number"
+            android:minHeight="48dp" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/editTextDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/duration_hint"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/editTextLeadActor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lead_actor_hint"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <RatingBar
+            android:id="@+id/ratingBarMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/movieImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/movie_image"
+            android:scaleType="centerCrop" />
+
+        <Button
+            android:id="@+id/buttonChooseImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_image"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/buttonSaveMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_movie"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 </ScrollView>
