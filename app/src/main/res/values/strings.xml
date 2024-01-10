@@ -56,4 +56,10 @@
     <string name="genere_show_err">Eroare la aratarea \"GENULUI\"</string>
     <string name="movie_added_successfully">Film adaugat cu succes!</string>
     <string name="permission_required_images">"Este nevoie de permisiune pentru a accesa imaginile "</string>
+    <string name="lead_actor_hint">Actor principal</string>
+    <string name="duration_hint">Durată</string>
+    <string name="release_year_hint">An lansare</string>
+    <string name="director_hint">Regizor</string>
+    <string name="movie_genre_hint">Gen</string>
+    <string name="movie_title_hint">Titlu</string>
 </resources>
