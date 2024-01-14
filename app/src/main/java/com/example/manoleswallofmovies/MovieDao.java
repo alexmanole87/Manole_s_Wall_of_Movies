@@ -21,6 +21,15 @@ public interface MovieDao {
     //Movie getMovieById(int movieId);
     LiveData<MovieWithDirectorAndDetails> getMovieWithDirectorAndDetails(int movieId);
 
+    // Obținerea unui film după gen si nota
+
+    @Query("SELECT * FROM movies WHERE genre = :genre")
+    LiveData<List<Movie>> getMoviesByGenre(String genre);
+
+    @Query("SELECT * FROM movies WHERE rating >= :rating")
+    LiveData<List<Movie>> getMoviesByRating(float rating);
+
+
     // Obținerea tuturor filmelor
     @Query("SELECT * FROM movies")
     LiveData<List<Movie>> getAllMovies();
