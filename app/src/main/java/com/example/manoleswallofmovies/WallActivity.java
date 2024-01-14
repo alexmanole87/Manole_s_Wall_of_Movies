@@ -1,37 +1,27 @@
 package com.example.manoleswallofmovies;
 
-
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class WallActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth; // Adaugă instanța Firebase Auth
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall);
+
+        mAuth = FirebaseAuth.getInstance(); // Inițializează Firebase Auth
+
         TextView tvMessage = findViewById(R.id.textViewTitle);
-
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
-        String name = sharedPreferences.getString(getString(R.string.pref_name), "");
-        String username = sharedPreferences.getString(getString(R.string.pref_username), "");
-
-        if (!name.isEmpty()) {
-            tvMessage.setText(getString(R.string.welcome_txt, name));
-        } else {
-            tvMessage.setText(getString(R.string.welcome_txt, username));
-        }
-
-
         Button bam = findViewById(R.id.buttonAddMovie);
         Button bvm = findViewById(R.id.buttonViewMovies);
 
@@ -42,7 +32,6 @@ public class WallActivity extends AppCompatActivity {
 
         bam.setOnLongClickListener(view -> {
             Toast.makeText(WallActivity.this, R.string.txt_help_add, Toast.LENGTH_LONG).show();
-
             return true;
         });
 
@@ -50,28 +39,12 @@ public class WallActivity extends AppCompatActivity {
             Intent intent_view = new Intent(WallActivity.this, MovieListActivity.class);
             startActivity(intent_view);
         });
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-
-    private void logout() {
-
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("Username");
-        editor.remove("Password");
-        editor.apply();
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     @Override
@@ -94,4 +67,11 @@ public class WallActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void logout() {
+        mAuth.signOut();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -50,3 +50,6 @@ dependencies {
     annotationProcessor ("androidx.room:room-compiler:2.6.1")
     implementation ("com.google.firebase:firebase-auth:22.3.0")
 }
+
+apply(plugin = "com.google.gms.google-services")
+

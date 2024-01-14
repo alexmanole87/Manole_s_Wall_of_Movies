@@ -1,6 +1,5 @@
 package com.example.manoleswallofmovies;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -8,74 +7,63 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText editTextUsername;
+    private EditText editTextUsername; // Acesta ar trebui să fie un email valid
     private EditText editTextPassword;
-    private EditText editTextSeenMoviesNo;
-    private EditText editTextName;
-    private Spinner spinnerYearOfBirth;
+    private FirebaseAuth mAuth; // Instanță Firebase Auth
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        mAuth = FirebaseAuth.getInstance(); // Inițializează Firebase Auth
+
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
-        editTextSeenMoviesNo = findViewById(R.id.editTextSeenMoviesNo);
-        editTextName = findViewById(R.id.editTextName);
-        spinnerYearOfBirth = findViewById(R.id.spinnerYearOfBirth);
         Button buttonSignUp = findViewById(R.id.buttonSignUp);
-
-        setupYearOfBirthSpinner();
 
         buttonSignUp.setOnClickListener(v -> attemptSignUp());
     }
 
-    private void setupYearOfBirthSpinner() {
-        ArrayList<String> years = new ArrayList<>();
-        int thisYear = (Calendar.getInstance().get(Calendar.YEAR)) - 2;
-        for (int i = thisYear; i >= 1930; i--) {
-            years.add(Integer.toString(i));
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerYearOfBirth.setAdapter(adapter);
-    }
-//yes
-    private boolean isUsernameExist(String username) {
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
-        return sharedPreferences.contains(username);
-    }
-
     private void attemptSignUp() {
-        String username = editTextUsername.getText().toString();
-        String password = editTextPassword.getText().toString();
-        String seenMoviesNo = editTextSeenMoviesNo.getText().toString();
-        String name = editTextName.getText().toString();
-        String yearOfBirth = spinnerYearOfBirth.getSelectedItem().toString();
+        String email = editTextUsername.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
 
-        if (!username.isEmpty() && !password.isEmpty() && !isUsernameExist(username)) {
-            saveUserDetails(username, password, seenMoviesNo, name, yearOfBirth);
-            Toast.makeText(this, R.string.auth_login, Toast.LENGTH_SHORT).show();
-            finish();
+        if (!isValidEmail(email)) {
+            Toast.makeText(this, R.string.email_not_formated, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!email.isEmpty() && !password.isEmpty()) {
+            signUpUser(email, password);
         } else {
-            Toast.makeText(this, R.string.sign_up_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.all_fileds_error, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void saveUserDetails(String username, String password, String seenMoviesNo, String name, String yearOfBirth) {
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.pref_username), username);
-        editor.putString(getString(R.string.pref_password), password);
-        editor.putString(getString(R.string.pref_seen_movies_no), seenMoviesNo);
-        editor.putString(getString(R.string.pref_name), name);
-        editor.putString(getString(R.string.pref_year_of_birth), yearOfBirth);
-        editor.apply();
+    private void signUpUser(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SignUpActivity.this, R.string.sign_up_succes, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, R.string.sign_up_error + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

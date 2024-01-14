@@ -39,10 +39,9 @@ public class MovieViewModel extends AndroidViewModel {
         executorService.execute(() -> movieDao.delete(movie));
     }
 
-    // Metoda pentru a obține un film cu detalii și director (presupunând existența unei metode în DAO)
     public LiveData<MovieWithDirectorAndDetails> getMovieWithDirectorAndDetails(int movieId) {
         return movieDao.getMovieWithDirectorAndDetails(movieId);
     }
 
-    // Orice alte metode necesare
+
 }

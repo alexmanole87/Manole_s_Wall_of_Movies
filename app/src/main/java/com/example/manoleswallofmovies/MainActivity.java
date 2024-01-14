@@ -1,23 +1,28 @@
 package com.example.manoleswallofmovies;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Inițializează Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
@@ -25,17 +30,9 @@ public class MainActivity extends AppCompatActivity {
         Button buttonSignUp = findViewById(R.id.buttonSignUp);
 
         buttonLogin.setOnClickListener(v -> {
-            String username = editTextUsername.getText().toString();
+            String email = editTextUsername.getText().toString();
             String password = editTextPassword.getText().toString();
-            if (validateLogin(username, password)) {
-
-                Toast.makeText(MainActivity.this, R.string.auth_succes, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, WallActivity.class);
-                startActivity(intent);
-
-            } else {
-                Toast.makeText(MainActivity.this, R.string.auth_fail, Toast.LENGTH_SHORT).show();
-            }
+            loginUser(email, password);
         });
 
         buttonSignUp.setOnClickListener(v -> {
@@ -45,10 +42,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateLogin(String username, String password) {
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_prefs_file), Context.MODE_PRIVATE);
-        String registeredUsername = sharedPreferences.getString(getString(R.string.pref_username), "");
-        String registeredPassword = sharedPreferences.getString(getString(R.string.pref_password), "");
-        return username.equals(registeredUsername) && password.equals(registeredPassword);
+    private void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Logare reușită
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Toast.makeText(MainActivity.this, "Autentificare reușită.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, WallActivity.class);
+                        startActivity(intent);
+                    } else {
+                        // Eșec la logare
+                        Toast.makeText(MainActivity.this, "Autentificare eșuată.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Verifică dacă utilizatorul este deja logat (non-null) și actualizează UI-ul corespunzător.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // Navighează la WallActivity sau altă activitate dacă utilizatorul este deja logat
+            Intent intent = new Intent(MainActivity.this, WallActivity.class);
+            startActivity(intent);
+        }
     }
 }

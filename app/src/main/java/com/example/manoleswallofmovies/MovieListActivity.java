@@ -6,6 +6,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -48,7 +50,7 @@ public class MovieListActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Opțional: gestionarea cazului în care nu este selectat nimic
+                Toast.makeText(MovieListActivity.this, getString(R.string.on_nothing_sel_txt), Toast.LENGTH_SHORT).show();
             }
         });
     }
