@@ -6,10 +6,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -23,7 +25,7 @@ public class AddMovieActivity extends AppCompatActivity {
     private static final int REQUEST_READ_STORAGE_PERMISSION = 100;
 
     private EditText editTextMovieTitle;
-    private EditText editTextMovieGenre;
+    private Spinner spinnerMovieGenre;
     private EditText editTextDirector;
     private EditText editTextReleaseYear;
     private EditText editTextDuration;
@@ -48,9 +50,9 @@ public class AddMovieActivity extends AppCompatActivity {
 
         AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
         movieDao = db.movieDao();
-
         editTextMovieTitle = findViewById(R.id.editTextMovieTitle);
-        editTextMovieGenre = findViewById(R.id.editTextMovieGenre);
+        spinnerMovieGenre = findViewById(R.id.spinnerMovieGenre);
+        initializeSpinner();
         editTextDirector = findViewById(R.id.editTextDirector);
         editTextReleaseYear = findViewById(R.id.editTextReleaseYear);
         editTextDuration = findViewById(R.id.editTextDuration);
@@ -74,19 +76,25 @@ public class AddMovieActivity extends AppCompatActivity {
         }
     }
 
+    private void initializeSpinner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.movie_genres_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMovieGenre.setAdapter(adapter);
+    }
+
     private void saveMovie() {
         String title = editTextMovieTitle.getText().toString();
-        String genre = editTextMovieGenre.getText().toString();
+        String genre = spinnerMovieGenre.getSelectedItem().toString();
         float rating = ratingBarMovie.getRating();
         String imagePath = imageUri != null ? imageUri.toString() : "";
 
         if (!title.isEmpty() && !genre.isEmpty() && !imagePath.isEmpty()) {
-            Movie newMovie = new Movie(); // Actualizați constructorul conform nevoilor
+            Movie newMovie = new Movie();
             newMovie.setTitle(title);
             newMovie.setGenre(genre);
             newMovie.setRating(rating);
             newMovie.setImagePath(imagePath);
-            // Set other fields as needed
 
             new Thread(() -> {
                 movieDao.insert(newMovie);

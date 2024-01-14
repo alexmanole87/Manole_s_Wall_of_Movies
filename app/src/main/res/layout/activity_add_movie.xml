@@ -16,14 +16,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/movie_title_hint"
             android:inputType="text"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
-        <EditText
-            android:id="@+id/editTextMovieGenre"
+        <Spinner
+            android:id="@+id/spinnerMovieGenre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/movie_genre_hint"
-            android:inputType="text"
+            android:autofillHints=""
             android:minHeight="48dp" />
 
         <EditText
@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/director_hint"
             android:inputType="text"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editTextReleaseYear"
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/release_year_hint"
             android:inputType="number"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editTextDuration"
@@ -48,7 +50,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/duration_hint"
             android:inputType="text"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editTextLeadActor"
@@ -56,7 +59,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/lead_actor_hint"
             android:inputType="text"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <RatingBar
             android:id="@+id/ratingBarMovie"

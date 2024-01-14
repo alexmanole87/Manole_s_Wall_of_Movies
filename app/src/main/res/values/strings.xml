@@ -62,4 +62,11 @@
     <string name="director_hint">Regizor</string>
     <string name="movie_genre_hint">Gen</string>
     <string name="movie_title_hint">Titlu</string>
+    <string-array name="movie_genres_array">
+        <item>Horror</item>
+        <item>Comedy</item>
+        <item>Romantic</item>
+        <item>Action</item>
+    </string-array>
+
 </resources>
