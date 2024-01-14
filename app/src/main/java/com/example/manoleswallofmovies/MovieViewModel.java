@@ -23,6 +23,9 @@ public class MovieViewModel extends AndroidViewModel {
     public LiveData<List<Movie>> getMovieList() {
         return movieList;
     }
+    public LiveData<List<Movie>> getMoviesByGenre(String genre) {
+        return movieDao.getMoviesByGenre(genre);
+    }
 
     public void insertMovie(Movie movie) {
         executorService.execute(() -> movieDao.insert(movie));

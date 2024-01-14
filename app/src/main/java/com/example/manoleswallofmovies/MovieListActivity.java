@@ -1,7 +1,11 @@
 package com.example.manoleswallofmovies;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,6 +13,7 @@ public class MovieListActivity extends AppCompatActivity {
 
     private MovieViewModel movieViewModel;
     private ListView listView;
+    private Spinner spinnerFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,11 +21,40 @@ public class MovieListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_list);
 
         listView = findViewById(R.id.movie_list_view);
+        spinnerFilter = findViewById(R.id.spinnerFilter);
+        initializeSpinner();
+
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
 
-        // Observă LiveData din ViewModel
+        // Inițial afișează toate filmele
         movieViewModel.getMovieList().observe(this, movies -> {
-            // Actualizează adapter-ul cu lista nouă de filme
+            MovieAdapter adapter = new MovieAdapter(this, movies);
+            listView.setAdapter(adapter);
+        });
+    }
+
+    private void initializeSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.movie_genres_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFilter.setAdapter(adapter);
+
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedGenre = parent.getItemAtPosition(position).toString();
+                filterMovies(selectedGenre);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Opțional: gestionarea cazului în care nu este selectat nimic
+            }
+        });
+    }
+
+    private void filterMovies(String genre) {
+        movieViewModel.getMoviesByGenre(genre).observe(this, movies -> {
             MovieAdapter adapter = new MovieAdapter(this, movies);
             listView.setAdapter(adapter);
         });
