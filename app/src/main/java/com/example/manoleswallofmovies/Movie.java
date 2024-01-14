@@ -1,29 +1,59 @@
 package com.example.manoleswallofmovies;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo;
 import java.io.Serializable;
 import java.util.List;
 
+@Entity(tableName = "movies")
 public class Movie implements Serializable {
-    private String title;
-    private String genre;
-    private double rating;
-    private String imagePath;
-    private boolean isWatched;
-    private MovieDetails details;
-    private List<String> cast;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-    // Constructor
-    public Movie(String title, String genre, double rating, String imagePath, boolean isWatched, MovieDetails details, List<String> cast) {
+    @ColumnInfo(name = "title")
+    private String title;
+
+    @ColumnInfo(name = "genre")
+    private String genre;
+
+    @ColumnInfo(name = "rating")
+    private double rating;
+
+    @ColumnInfo(name = "image_path")
+    private String imagePath;
+
+    @ColumnInfo(name = "is_watched")
+    private boolean isWatched;
+
+    @ColumnInfo(name = "director_id")
+    private int directorId;
+
+    @ColumnInfo(name = "details_id")
+    private int detailsId;
+
+    public Movie(int id, String title, String genre, double rating, String imagePath, boolean isWatched, int directorId, int detailsId) {
+        this.id = id;
         this.title = title;
         this.genre = genre;
         this.rating = rating;
         this.imagePath = imagePath;
         this.isWatched = isWatched;
-        this.details = details;
-        this.cast = cast;
+        this.directorId = directorId;
+        this.detailsId = detailsId;
     }
 
-    // Getteri și setteri
+    public Movie() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -64,58 +94,19 @@ public class Movie implements Serializable {
         isWatched = watched;
     }
 
-    public MovieDetails getDetails() {
-        return details;
+    public int getDirectorId() {
+        return directorId;
     }
 
-    public void setDetails(MovieDetails details) {
-        this.details = details;
+    public void setDirectorId(int directorId) {
+        this.directorId = directorId;
     }
 
-    public List<String> getCast() {
-        return cast;
+    public int getDetailsId() {
+        return detailsId;
     }
 
-    public void setCast(List<String> cast) {
-        this.cast = cast;
-    }
-
-    // Clasa imbricată MovieDetails
-    public static class MovieDetails implements Serializable {
-        private String director;
-        private int releaseYear;
-        private String duration;
-
-        // Constructor
-        public MovieDetails(String director, int releaseYear, String duration) {
-            this.director = director;
-            this.releaseYear = releaseYear;
-            this.duration = duration;
-        }
-
-        // Getteri și setteri
-        public String getDirector() {
-            return director;
-        }
-
-        public void setDirector(String director) {
-            this.director = director;
-        }
-
-        public int getReleaseYear() {
-            return releaseYear;
-        }
-
-        public void setReleaseYear(int releaseYear) {
-            this.releaseYear = releaseYear;
-        }
-
-        public String getDuration() {
-            return duration;
-        }
-
-        public void setDuration(String duration) {
-            this.duration = duration;
-        }
+    public void setDetailsId(int detailsId) {
+        this.detailsId = detailsId;
     }
 }

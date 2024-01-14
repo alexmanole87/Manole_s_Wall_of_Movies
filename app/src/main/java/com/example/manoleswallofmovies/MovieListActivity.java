@@ -1,6 +1,5 @@
 package com.example.manoleswallofmovies;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,18 +24,5 @@ public class MovieListActivity extends AppCompatActivity {
             MovieAdapter adapter = new MovieAdapter(this, movies);
             listView.setAdapter(adapter);
         });
-
-        loadMovies();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadMovies();
-    }
-
-    private void loadMovies() {
-        SharedPreferences sharedPreferences = getSharedPreferences("ManolesWallOfMoviesPrefs", MODE_PRIVATE);
-        movieViewModel.loadMovies(sharedPreferences);
     }
 }

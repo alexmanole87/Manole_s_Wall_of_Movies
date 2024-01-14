@@ -2,7 +2,6 @@ package com.example.manoleswallofmovies;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,12 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AddMovieActivity extends AppCompatActivity {
 
@@ -38,7 +31,7 @@ public class AddMovieActivity extends AppCompatActivity {
     private RatingBar ratingBarMovie;
     private ImageView movieImageView;
     private Uri imageUri;
-    private ArrayList<Movie> movieList;
+    private MovieDao movieDao;
 
     private final ActivityResultLauncher<Intent> pickImageLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -53,6 +46,9 @@ public class AddMovieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_movie);
 
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        movieDao = db.movieDao();
+
         editTextMovieTitle = findViewById(R.id.editTextMovieTitle);
         editTextMovieGenre = findViewById(R.id.editTextMovieGenre);
         editTextDirector = findViewById(R.id.editTextDirector);
@@ -61,8 +57,6 @@ public class AddMovieActivity extends AppCompatActivity {
         editTextLeadActor = findViewById(R.id.editTextLeadActor);
         ratingBarMovie = findViewById(R.id.ratingBarMovie);
         movieImageView = findViewById(R.id.movieImageView);
-
-        movieList = loadMovies();
 
         Button buttonChooseImage = findViewById(R.id.buttonChooseImage);
         buttonChooseImage.setOnClickListener(v -> checkPermissionAndPickImage());
@@ -80,42 +74,27 @@ public class AddMovieActivity extends AppCompatActivity {
         }
     }
 
-
     private void saveMovie() {
         String title = editTextMovieTitle.getText().toString();
         String genre = editTextMovieGenre.getText().toString();
         float rating = ratingBarMovie.getRating();
-        String director = editTextDirector.getText().toString();
-        int releaseYear = Integer.parseInt(editTextReleaseYear.getText().toString());
-        String duration = editTextDuration.getText().toString();
-        List<String> cast = Arrays.asList(editTextLeadActor.getText().toString().split(","));
+        String imagePath = imageUri != null ? imageUri.toString() : "";
 
-        if (!title.isEmpty() && !genre.isEmpty() && imageUri != null) {
-            Movie.MovieDetails details = new Movie.MovieDetails(director, releaseYear, duration);
-            Movie newMovie = new Movie(title, genre, rating, imageUri.toString(), false, details, cast);
-            movieList.add(newMovie);
-            saveMovies(movieList);
+        if (!title.isEmpty() && !genre.isEmpty() && !imagePath.isEmpty()) {
+            Movie newMovie = new Movie(); // Actualizați constructorul conform nevoilor
+            newMovie.setTitle(title);
+            newMovie.setGenre(genre);
+            newMovie.setRating(rating);
+            newMovie.setImagePath(imagePath);
+            // Set other fields as needed
+
+            new Thread(() -> {
+                movieDao.insert(newMovie);
+            }).start();
+
             Toast.makeText(this, R.string.movie_added_successfully, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, R.string.error_save_movies_txt, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private ArrayList<Movie> loadMovies() {
-        SharedPreferences sharedPreferences = getSharedPreferences("ManolesWallOfMoviesPrefs", MODE_PRIVATE);
-        String json = sharedPreferences.getString("movies", null);
-        if (json == null) {
-            return new ArrayList<>();
-        }
-        Type type = new TypeToken<ArrayList<Movie>>() {}.getType();
-        return new Gson().fromJson(json, type);
-    }
-
-    private void saveMovies(ArrayList<Movie> movieList) {
-        SharedPreferences sharedPreferences = getSharedPreferences("ManolesWallOfMoviesPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String json = new Gson().toJson(movieList);
-        editor.putString("movies", json);
-        editor.apply();
     }
 }
