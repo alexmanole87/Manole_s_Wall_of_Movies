@@ -1,31 +1,45 @@
 package com.example.manoleswallofmovies;
 
-import android.content.SharedPreferences;
-
+import android.app.Application;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class MovieViewModel extends ViewModel {
-    private MutableLiveData<List<Movie>> movieList = new MutableLiveData<>();
+public class MovieViewModel extends AndroidViewModel {
+    private final MovieDao movieDao;
+    private final LiveData<List<Movie>> movieList;
+    private final ExecutorService executorService;
+
+    public MovieViewModel(Application application) {
+        super(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
+        movieDao = db.movieDao();
+        movieList = movieDao.getAllMovies();
+        executorService = Executors.newFixedThreadPool(2); // Numărul de thread-uri poate fi ajustat
+    }
 
     public LiveData<List<Movie>> getMovieList() {
         return movieList;
     }
 
-    public void loadMovies(SharedPreferences sharedPreferences) {
-        new Thread(() -> {
-            String json = sharedPreferences.getString("movies", null);
-            if (json != null) {
-                Type type = new TypeToken<ArrayList<Movie>>() {}.getType();
-                ArrayList<Movie> loadedMovies = new Gson().fromJson(json, type);
-                movieList.postValue(loadedMovies);
-            }
-        }).start();
+    public void insertMovie(Movie movie) {
+        executorService.execute(() -> movieDao.insert(movie));
     }
+
+    public void updateMovie(Movie movie) {
+        executorService.execute(() -> movieDao.update(movie));
+    }
+
+    public void deleteMovie(Movie movie) {
+        executorService.execute(() -> movieDao.delete(movie));
+    }
+
+    // Metoda pentru a obține un film cu detalii și director (presupunând existența unei metode în DAO)
+    public LiveData<MovieWithDirectorAndDetails> getMovieWithDirectorAndDetails(int movieId) {
+        return movieDao.getMovieWithDirectorAndDetails(movieId);
+    }
+
+    // Orice alte metode necesare
 }
